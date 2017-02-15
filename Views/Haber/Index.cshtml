@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "SporÖzet";
+    Layout = null;
+}
+<!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+ <!--<![endif]-->
+<head>
+    <link rel="stylesheet" href="/Content/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width = 1050, user-scalable = no" />
+    <script type="text/javascript" src="/Scripts/jquery.min.1.7.js"></script>
+    <script type="text/javascript" src="/Scripts/modernizr.2.5.3.min.js"></script>
+    <script type="text/javascript" src="/Scripts/js.js"></script>
+</head>
+<body>
+
+    <div class="flipbook-viewport">
+        <div class="container">
+            <div class="flipbook">
+
+                <div style="background-image:url(/pages/deneme.jpg)"></div>
+                @{
+                    int haberSirasi = 1;
+
+                    foreach (var item in ViewBag.haberler)
+                    {
+                        int sıra = 0;
+                        haberSirasi++;
+                        String a = item["Text"];
+                        String[] cumle = a.Split('.', '?'); //haber metni burada cümlelere ayrılıyor
+                        string[] onemli = { "şok", "derbi", "malup", "yendi", "kazandı", "\"", "sonuç", "galip", "önemli", "açıklama yaptı", "açıklandı", "açıkladı", "berabere", "ifade edildi", "özetle", "kısaca", "sonuç" };
+                        string[] onemsiz = { "geçmiş", "boş işler", "çünkü", "çünki", "ancak", "öyle" };
+                        int[] onemSırası = new int[cumle.Length];
+                        //cümleler içinde dolaşıp puanlama yapılır
+                        foreach (var cum in cumle)
+                        {
+                            //uzun cümleler için puan kırılır
+                            if (cumle[sıra].Length > 15)
+                            {
+                                onemSırası[sıra]--;
+                            }
+                            //ilk cümleler puan alır
+                            if (sıra < 5)
+                            {
+                                onemSırası[sıra]++;
+                            }
+                            //son cümleler puan kazanır
+                            if (sıra > cumle.Length - 5)
+                            {
+                                onemSırası[sıra]++;
+                            }
+                            //önemli kelimeler aranır ve puanı artar
+                            foreach (var onem in onemli)
+                            {
+                                if (cum.IndexOf(onem) != -1)
+                                {
+                                    onemSırası[sıra]++;
+                                }
+                            }
+                            //önemsiz kelimeler bulunur ve puanı kırılır
+                            foreach (var onem in onemsiz)
+                            {
+                                if (cum.IndexOf(onem) != -1)
+                                {
+                                    onemSırası[sıra]--;
+                                }
+                            }
+                            sıra++;//bir sonraki cümleye geçilir
+                        }
+
+                        <div class="sayfa">
+                            <div class="giris">
+                                <img src="/pages/logo.png" alt="">
+                            </div>
+                            <div class="baslik text-center">
+                               @item["Title"]
+                            </div>
+                            <div class="text-center">
+                                <img class="resim-haber" src="" alt="">
+                            </div>
+                            <div class="tab-container">
+                                <!--tab-->
+                                <div class="tab" id="tab-@haberSirasi">
+                                    <ul>
+                                        <li><a href="#">KISA ÖZET</a></li>
+                                        <li><a href="#">UZUN ÖZET</a></li>
+                                        <li><a href="#">ORJİNAL HABER</a></li>
+                                    </ul>
+                                </div>
+
+                                <!--tab content-->
+                                <div class="fk-tab">
+                                    @for (int i = 0; i < cumle.Length; i++)
+                                    {
+
+                                        if (onemSırası[i] >= 1)
+                                        {
+                                            @Html.Raw(cumle[i]);
+                                        }
+                                    }
+                                </div>
+                                <div class="fk-tab">
+                                    @for (int i = 0; i < cumle.Length; i++)
+                                    {
+
+                                        if (onemSırası[i] >= 0)
+                                        {
+                                            @Html.Raw(cumle[i]);
+                                        }
+                                    }
+                                </div>
+                                <div class="fk-tab">
+                                    @Html.Raw(item["Text"])
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                
+                <div style="background-image:url(/pages/sonsayfa.jpg)"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+function loadApp() {
+
+	// Create the flipbook
+
+	$('.flipbook').turn({
+			// Width
+
+			width:922,
+
+			// Height
+
+			height:600,
+
+			// Elevation
+
+			elevation: 50,
+
+			// Enable gradients
+
+			gradients: true,
+
+			// Auto center this flipbook
+
+			autoCenter: true
+
+	});
+}
+
+// Load the HTML4 version if there's not CSS transform
+
+yepnope({
+	test : Modernizr.csstransforms,
+	yep: ['/Scripts/turn.js'],
+	nope: ['/Scripts/turn.html4.min.js'],
+	both: ['/Content/basic.css'],
+	complete: loadApp
+});
+
+    </script>
+
+</body>
+</html>

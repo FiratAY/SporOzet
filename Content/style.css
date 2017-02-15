@@ -1,0 +1,82 @@
+﻿.text-center {
+  text-align: center;
+}
+
+.clr {
+  clear: both;
+}
+
+.sayfa {
+  background-color: #f3f3f3 !important;
+}
+
+.giris {
+  width: 100%;
+  height: 60px;
+  background-color: #e7e7e7;
+}
+.giris img {
+  margin-top: 15px !important;
+  margin-left: 15px !important;
+  height: 30px;
+}
+
+.baslik {
+  padding: 10px 0;
+  font-size: 19px;
+  color: #ba8748;
+  font-family: Lora, serif;
+}
+
+.resim-haber {
+  height: 180px !important;
+  width: 90% !important;
+}
+
+/* Tab */
+ol, ul {
+  list-style: none;
+}
+
+.tab {
+  font: 700 14px Lora, serif, sans-serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #d6d6d5;
+}
+
+.tab ul li {
+  float: left;
+  padding: 0 0 14px 0;
+  margin-right: 18px;
+}
+
+.tab ul li.active {
+  border-bottom: 1px solid #ba8748;
+  margin-bottom: -1px;
+}
+
+.tab ul li a {
+  color: #8899a5;
+  text-decoration: none;
+}
+
+.tab ul li.active a {
+  color: #ba8748;
+}
+
+.fk-tab {
+  display: block;
+  font: 14px Open Sans, serif;
+  color: #8899a5;
+  line-height: 24px;
+  padding: 10px;
+}
+
+.tab:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/*# sourceMappingURL=style.css.map */
